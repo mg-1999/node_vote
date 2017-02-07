@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var restful = require('node-restful');
 var mongoose = restful.mongoose;
 
-var port = 80;
+var port = 8000;
 var currentVoteId;
 var currentCount=0;
 
@@ -24,7 +24,7 @@ dir=dir.join('/');
 console.log(dir+'/source/www');
 app.use(express.static(dir+'/source/www'));
 
-mongoose.connect("mongodb://localhost/vote");
+mongoose.connect("mongodb://test:test@ds056559.mlab.com:56559/votes");
 
 var User = app.resource = restful.model('users', mongoose.Schema({
 	date: { type: Date, default: Date.now }
@@ -57,10 +57,8 @@ VotingPaper.before('post', function(req, res, next) {
 		  return;
 	  }
 	  
-	  //중복 투표체크
+	  //Duplicate voting check
 	  VotingPaper.findOne({user_id:req.body.user_id,vote_id:currentVoteId}, function (err, votePaper) {
-//		  next();  
-//		  return;
 		  if(votePaper){
 			  console.log(votePaper)
 			  res.status(405).send('already voted');

@@ -25,7 +25,7 @@
         <label id="result" style="position: relative; display: -webkit-box; width: 80%; font-size: 342px; text-align: center; -webkit-box-orient: center; -webkit-box-pack: center;">0</label>
     </div>
     <script>
-        var socket = io();
+        var socket = io("http://localhost:8000");
         socket.on('count', function(count) {
             $('#result').html(count);
         });
